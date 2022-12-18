@@ -1,0 +1,100 @@
+<?php
+
+namespace Salah3id\Domains\Commands;
+
+use Illuminate\Console\Command;
+use Salah3id\Domains\Traits\DomainCommandTrait;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
+
+class MigrateRefreshCommand extends Command
+{
+    use DomainCommandTrait;
+
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'domain:migrate-refresh';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Rollback & re-migrate the domains migrations.';
+
+    /**
+     * Execute the console command.
+     */
+    public function handle(): int
+    {
+        $domain = $this->argument('domain');
+
+        if ($domain && !$this->getDomainName()) {
+            $this->error("Domain [$domain] does not exists.");
+
+            return E_ERROR;
+        }
+
+        $this->call('domain:migrate-reset', [
+            'domain' => $this->getDomainName(),
+            '--database' => $this->option('database'),
+            '--force' => $this->option('force'),
+        ]);
+
+        $this->call('domain:migrate', [
+            'domain' => $this->getDomainName(),
+            '--database' => $this->option('database'),
+            '--force' => $this->option('force'),
+        ]);
+
+        if ($this->option('seed')) {
+            $this->call('domain:seed', [
+                'domain' => $this->getDomainName(),
+            ]);
+        }
+
+        return 0;
+    }
+
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    protected function getArguments()
+    {
+        return [
+            ['domain', InputArgument::OPTIONAL, 'The name of domain will be used.'],
+        ];
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'],
+            ['force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production.'],
+            ['seed', null, InputOption::VALUE_NONE, 'Indicates if the seed task should be re-run.'],
+        ];
+    }
+
+    public function getDomainName()
+    {
+        $domain = $this->argument('domain');
+
+        if (!$domain) {
+            return null;
+        }
+
+        $domain = app('domains')->find($domain);
+
+        return $domain ? $domain->getStudlyName() : null;
+    }
+}

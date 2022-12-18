@@ -1,0 +1,115 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Factory;
+
+class $CLASS$ extends ServiceProvider
+{
+    /**
+     * @var string $domainName
+     */
+    protected $domainName = '$DOMAIN$';
+
+    /**
+     * @var string $domainNameLower
+     */
+    protected $domainNameLower = '$LOWER_NAME$';
+
+    /**
+     * Boot the application events.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->registerTranslations();
+        $this->registerConfig();
+        $this->registerViews();
+        $this->loadMigrationsFrom(domain_path($this->domainName, '$MIGRATIONS_PATH$'));
+    }
+
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->register(RouteServiceProvider::class);
+        $this->app->register(RepositoryServiceProvider::class);
+    }
+
+    /**
+     * Register config.
+     *
+     * @return void
+     */
+    protected function registerConfig()
+    {
+        $this->publishes([
+            domain_path($this->domainName, '$PATH_CONFIG$/config.php') => config_path($this->domainNameLower . '.php'),
+        ], 'config');
+        $this->mergeConfigFrom(
+            domain_path($this->domainName, '$PATH_CONFIG$/config.php'), $this->domainNameLower
+        );
+    }
+
+    /**
+     * Register views.
+     *
+     * @return void
+     */
+    public function registerViews()
+    {
+        $viewPath = resource_path('views/domains/' . $this->domainNameLower);
+
+        $sourcePath = domain_path($this->domainName, '$PATH_VIEWS$');
+
+        $this->publishes([
+            $sourcePath => $viewPath
+        ], ['views', $this->domainNameLower . '-domain-views']);
+
+        $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), $this->domainNameLower);
+    }
+
+    /**
+     * Register translations.
+     *
+     * @return void
+     */
+    public function registerTranslations()
+    {
+        $langPath = resource_path('lang/domains/' . $this->domainNameLower);
+
+        if (is_dir($langPath)) {
+            $this->loadTranslationsFrom($langPath, $this->domainNameLower);
+            $this->loadJsonTranslationsFrom($langPath, $this->domainNameLower);
+        } else {
+            $this->loadTranslationsFrom(domain_path($this->domainName, '$PATH_LANG$'), $this->domainNameLower);
+            $this->loadJsonTranslationsFrom(domain_path($this->domainName, '$PATH_LANG$'), $this->domainNameLower);
+        }
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [];
+    }
+
+    private function getPublishableViewPaths(): array
+    {
+        $paths = [];
+        foreach (\Config::get('view.paths') as $path) {
+            if (is_dir($path . '/domains/' . $this->domainNameLower)) {
+                $paths[] = $path . '/domains/' . $this->domainNameLower;
+            }
+        }
+        return $paths;
+    }
+}

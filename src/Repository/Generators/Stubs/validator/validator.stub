@@ -1,0 +1,24 @@
+<?php
+
+$NAMESPACE$
+
+use \Salah3id\Domains\Validator\Contracts\ValidatorInterface;
+use \Salah3id\Domains\Validator\LaravelValidator;
+
+/**
+ * Class $CLASS$Validator.
+ *
+ * @package $NAMESPACE$
+ */
+class $CLASS$Validator extends LaravelValidator
+{
+    /**
+     * Validation Rules
+     *
+     * @var array
+     */
+    protected $rules = [
+        ValidatorInterface::RULE_CREATE => $RULES$,
+        ValidatorInterface::RULE_UPDATE => $RULES$,
+    ];
+}

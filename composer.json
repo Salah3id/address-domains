@@ -1,0 +1,67 @@
+{
+  "name": "salah3id/address-domains",
+  "description": "Laravel Domain management",
+  "keywords": [
+    "domains",
+    "laravel",
+    "salah3id",
+    "domain",
+    "repository"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Salah Eid",
+      "email": "salah.enm@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=8.0",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5",
+    "mockery/mockery": "^1.4",
+    "orchestra/testbench": "^7.0",
+    "friendsofphp/php-cs-fixer": "^3.6",
+    "laravel/framework": "^9.21",
+    "spatie/phpunit-snapshot-assertions": "^4.2",
+    "phpstan/phpstan": "^1.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Salah3id\\Domains\\": "src"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Salah3id\\Domains\\Tests\\": "tests",
+      "Domains\\Recipe\\": "tests/stubs/valid/Recipe"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Salah3id\\Domains\\LaravelDomainsServiceProvider"
+      ],
+      "aliases": {
+        "Domain": "Salah3id\\Domains\\Facades\\Domain"
+      }
+    },
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    }
+  },
+  "scripts": {
+    "update-snapshots": "./vendor/bin/phpunit --no-coverage -d --update-snapshots",
+    "test": "vendor/bin/phpunit",
+    "test-coverage": "vendor/bin/phpunit --debug --coverage-html coverage",
+    "pcf": "vendor/bin/php-cs-fixer fix --verbose"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
