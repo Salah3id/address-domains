@@ -224,10 +224,10 @@ abstract class Generator
                 $path = config('domains.paths.repo-generator.paths.relations', 'Entities/Traits/Relations');
                 break;
             case ('repositories' === $class):
-                $path = config('domains.paths.repo-generator.paths.repositories', 'Repositories');
+                $path = config('domains.paths.repo-generator.paths.repositories', 'Repositories\Eloquent');
                 break;
             case ('interfaces' === $class):
-                $path = config('domains.paths.repo-generator.paths.interfaces', 'Repositories');
+                $path = config('domains.paths.repo-generator.paths.interfaces', 'Repositories\Interfaces');
                 break;
             case ('presenters' === $class):
                 $path = config('domains.paths.repo-generator.paths.presenters', 'Presenters');

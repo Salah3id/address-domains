@@ -15,6 +15,65 @@ $USE_VALIDATOR$
  */
 class $CLASS$RepositoryEloquent extends BaseRepository implements $CLASS$Repository
 {
+
+
+     /**
+     * Allowed Relations To Be Included.
+     *
+     * @var array
+     */
+    protected $allowedIncludes = [];
+
+    /**
+     * Allowed Filters
+     *
+     * @var array
+     */
+    protected $allowedFilters = [];
+
+    /**
+     * Allowed Exact Filters
+     *
+     * @var array
+     */
+    protected $allowedFiltersExact = [];
+
+
+    /**
+     * Allowed scope Filters
+     * @var array
+     */
+    protected $allowedFilterScopes = [];
+
+    /**
+     * Allowed Fields.
+     *
+     * @var array
+     */
+    protected $allowedFields = [];
+
+    /**
+     * Allowed Appends.
+     *
+     * @var array
+     */
+    protected $allowedAppends = [];
+
+    /**
+     * Allowed Sorts.
+     *
+     * @var array
+     */
+    protected $allowedSorts = [];
+
+    /**
+     * Allowed default sort.
+     *
+     * @var array
+     */
+    protected $allowedDefaultSorts = [];
+
+
     /**
      * Specify Model class name
      *
