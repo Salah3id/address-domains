@@ -54,25 +54,4 @@ class TransformerGenerator extends Generator
     {
         return $this->domainPath;
     }
-
-    /**
-     * Get array replacements.
-     *
-     * @return array
-     */
-    public function getReplacements()
-    {
-        $modelGenerator = new ModelGenerator([
-            'name' => $this->name
-        ],$this->domain,$this->domainPath);
-        $model = $modelGenerator->getRootNamespace() . '\\' . $modelGenerator->getName();
-        $model = str_replace([
-            "\\",
-            '/'
-        ], '\\', $model);
-
-        return array_merge(parent::getReplacements(), [
-            'model' => $model
-        ]);
-    }
 }

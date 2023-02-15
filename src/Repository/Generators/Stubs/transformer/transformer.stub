@@ -2,32 +2,28 @@
 
 $NAMESPACE$
 
-use League\Fractal\TransformerAbstract;
-use $MODEL$;
+use use Salah3id\Domains\Repository\Helpers\BaseResource as JsonResource;
+use Illuminate\Http\Request;
 
 /**
- * Class $CLASS$Transformer.
+ * Class $CLASS$Transform.
  *
  * @package $NAMESPACE$
  */
-class $CLASS$Transformer extends TransformerAbstract
+
+class $CLASS$Transform extends JsonResource
 {
     /**
-     * Transform the $CLASS$ entity.
+     * Transform the resource into an array.
      *
-     * @param \$MODEL$ $model
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function transform($CLASS$ $model)
+    public function data(Request $request):array
     {
         return [
-            'id'         => (int) $model->id,
-
-            /* place your other model properties here */
-
-            'created_at' => $model->created_at,
-            'updated_at' => $model->updated_at
+            'id'                            => (int) $this->id,
+            'name'                          => (string) $this->name,
         ];
     }
 }

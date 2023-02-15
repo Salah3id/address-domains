@@ -2,23 +2,20 @@
 
 $NAMESPACE$
 
-use $TRANSFORMER$;
-use Salah3id\Domains\Repository\Presenter\FractalPresenter;
+use Salah3id\Domains\Repository\Helpers\BaseCollection as ResourceCollection;
 
-/**
- * Class $CLASS$Presenter.
- *
- * @package $NAMESPACE$
- */
-class $CLASS$Presenter extends FractalPresenter
+
+class DeveloperResourceCollection extends ResourceCollection
 {
     /**
-     * Transformer
+     * Transform the resource collection into an array.
      *
-     * @return \League\Fractal\TransformerAbstract
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
      */
-    public function getTransformer()
+    public function data(Request $request) : array
     {
-        return new $CLASS$Transformer();
+        return parent::toArray($request);
     }
 }
+
