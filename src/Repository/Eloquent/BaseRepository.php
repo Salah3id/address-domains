@@ -25,6 +25,8 @@ use Salah3id\Domains\Repository\Traits\ComparesVersionsTrait;
 use Salah3id\Domains\Validator\Contracts\ValidatorInterface;
 use Salah3id\Domains\Validator\Exceptions\ValidatorException;
 
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 /**
  * Class BaseRepository
  *
@@ -1225,5 +1227,113 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
         $this->applyScope();
 
         return call_user_func_array([$this->model, $method], $arguments);
+    }
+
+
+
+    // Add Spatie 
+    /**
+     * Allowed Relations To Be Included.
+     *
+     * @var array
+     */
+    protected $allowedIncludes = [];
+
+    /**
+     * Allowed Filters
+     *
+     * @var array
+     */
+    protected $allowedFilters = [];
+
+    /**
+     * Allowed Exact Filters
+     *
+     * @var array
+     */
+    protected $allowedFiltersExact = [];
+
+    /**
+     * Allowed Exact Filters
+     *
+     * @var array
+     */
+    protected $allowedRelationSort = [];
+
+    /**
+     * Allowed scope Filters
+     * @var array
+     */
+    protected $allowedFilterScopes = [];
+
+    /**
+     * Allowed Fields.
+     *
+     * @var array
+     */
+    protected $allowedFields = [];
+
+    /**
+     * Allowed Appends.
+     *
+     * @var array
+     */
+    protected $allowedAppends = [];
+
+    /**
+     * Allowed Sorts.
+     *
+     * @var array
+     */
+    protected $allowedSorts = [];
+
+    protected $allowedDefaultSorts = [];
+
+    public function getAllowedIncludes():array
+    {
+        return $this->allowedIncludes;
+    }
+
+    /**
+     * @param Application $app
+     * @param array|null $params
+     */
+    public function spatie(?array $params = null)
+    {
+        $this->appendCustomAllowedSorts($this->allowedSorts);
+        foreach ($this->allowedFiltersExact as $field) {
+            array_push($this->allowedFilters, AllowedFilter::exact($field));
+        }
+        foreach ($this->allowedFilterScopes as $scope_filter) {
+            array_push($this->allowedFilters, AllowedFilter::scope($scope_filter));
+        }
+        if ($this->model instanceof Builder) {
+            $this->model = $this->initiateSpatieQueryBuilder($this->model, $params)->allowedFields($this->allowedFields)
+                ->allowedFilters($this->allowedFilters)->allowedIncludes($this->allowedIncludes)
+                ->allowedSorts($this->allowedSorts);
+        } else {
+            $query = app()->make($this->model())->newQuery();
+            $this->model = $this->initiateSpatieQueryBuilder($query, $params)->allowedFields($this->allowedFields)->allowedFilters($this->allowedFilters)
+                ->allowedIncludes($this->allowedIncludes)->allowedSorts($this->allowedSorts);
+        }
+        if (! empty($this->allowedDefaultSorts)) {
+            $this->model = $this->model->defaultSorts($this->allowedDefaultSorts);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param EloquentBuilder|Relation|string $subject
+     * @param array | null $query_params
+     * @return QueryBuilder
+     */
+    private function initiateSpatieQueryBuilder($subject, ?array $query_params = null): QueryBuilder
+    {
+        if (! is_null($query_params)) {
+            return QueryBuilder::for($subject, new Request($query_params));
+        }
+
+        return QueryBuilder::for($subject);
     }
 }
