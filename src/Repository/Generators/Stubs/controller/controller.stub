@@ -10,6 +10,7 @@ use Salah3id\Domains\Validator\Contracts\ValidatorInterface;
 use Salah3id\Domains\Validator\Exceptions\ValidatorException;
 use $APPNAME$Http\Requests\CreateRequests\$CLASS$CreateRequest;
 use $APPNAME$Http\Requests\UpdateRequests\$CLASS$UpdateRequest;
+use Salah3id\Domains\Repository\Traits\Responder;
 $REPOSITORY$
 $VALIDATOR$
 
@@ -20,6 +21,8 @@ $VALIDATOR$
  */
 class $CONTROLLER$Controller extends Controller
 {
+    use Responder;
+
     /**
      * @var $CLASS$Repository
      */
