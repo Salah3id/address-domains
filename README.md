@@ -12,7 +12,7 @@
 
 `salah3id/address-domains` is a Laravel package which created to manage your large Laravel app using domains with repository design pattern to abstract the data layer, making our application more flexible to maintain. Domain is like a Laravel package, it has some views, controllers or models. This package is supported and tested in Laravel 9.
 
-This package is a re-published, re-organised of [salah3id/laravel-modules](https://github.com/salah3id/laravel-modules), which isn't support repository design pattern.
+This package is a re-published, re-organised of [nWidart/laravel-modules](https://github.com/nWidart/laravel-modules), which isn't support repository design pattern.
 
 
 ## Install
