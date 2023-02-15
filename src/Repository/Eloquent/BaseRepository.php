@@ -27,6 +27,8 @@ use Salah3id\Domains\Validator\Exceptions\ValidatorException;
 
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedSort;
+use Salah3id\Domains\Repository\Helpers\SortByRelation;
 /**
  * Class BaseRepository
  *
@@ -1335,5 +1337,18 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
         }
 
         return QueryBuilder::for($subject);
+    }
+
+    private function appendCustomAllowedSorts(array $allowedSorts) {
+        $allowedSorts = $this->allowedSorts;
+        foreach($allowedSorts as $allowedSort) {
+            if(strrpos($allowedSort, '.')) {
+                unset($allowedSorts[array_search($allowedSort, $allowedSorts)]);
+                array_push($allowedSorts,
+                AllowedSort::custom($allowedSort, new SortByRelation(app()->make($this->model())->getQuery()), $allowedSort)
+            );
+            }
+        }
+        $this->allowedSorts = $allowedSorts;
     }
 }
