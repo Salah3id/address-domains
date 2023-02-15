@@ -2,7 +2,7 @@
 
 $NAMESPACE$
 
-use use Salah3id\Domains\Repository\Helpers\BaseResource as JsonResource;
+use Salah3id\Domains\Repository\Helpers\BaseResource as JsonResource;
 use Illuminate\Http\Request;
 
 /**
