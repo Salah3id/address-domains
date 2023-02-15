@@ -6,12 +6,12 @@ use Salah3id\Domains\Repository\Helpers\BaseResource as JsonResource;
 use Illuminate\Http\Request;
 
 /**
- * Class $CLASS$Transform.
+ * Class $CLASS$Transformer.
  *
  * @package $NAMESPACE$
  */
 
-class $CLASS$Transform extends JsonResource
+class $CLASS$Transformer extends JsonResource
 {
     /**
      * Transform the resource into an array.
