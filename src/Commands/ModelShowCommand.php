@@ -2,7 +2,7 @@
 
 namespace Salah3id\Domains\Commands;
 
-use Illuminate\Foundation\Console\ShowCommand;
+use Illuminate\Database\Console\ShowCommand;
 
 class ModelShowCommand extends ShowCommand
 {
