@@ -10,6 +10,10 @@ use Salah3id\Domains\Validator\Contracts\ValidatorInterface;
 use Salah3id\Domains\Validator\Exceptions\ValidatorException;
 use $APPNAME$Http\Requests\CreateRequests\$CLASS$CreateRequest;
 use $APPNAME$Http\Requests\UpdateRequests\$CLASS$UpdateRequest;
+use $APPNAME$Http\Transformers\$CLASS$\$CLASS$Resource;
+use $APPNAME$Http\Transformers\$CLASS$\$CLASS$Collection;
+
+
 use Salah3id\Domains\Repository\Traits\Responder;
 $REPOSITORY$
 $VALIDATOR$
@@ -22,6 +26,23 @@ $VALIDATOR$
 class $CONTROLLER$Controller extends Controller
 {
     use Responder;
+
+
+    /**
+     * Domain Alias.
+     *
+     * @var string
+     */
+    protected $domainAlias = '$DOMAIN$';
+
+
+    /**
+     * View Path
+     *
+     * @var string
+     */
+    protected $viewPath = '$SINGULAR$';
+
 
     /**
      * @var $CLASS$Repository
@@ -52,16 +73,16 @@ class $CONTROLLER$Controller extends Controller
      */
     public function index()
     {
-        $$PLURAL$ = $this->repository->all();
+        $$PLURAL$ = $this->repository->spatie()->paginate(10);
 
-        if (request()->wantsJson()) {
+        $data = $this->setData('data', $$PLURAL$);
 
-            return response()->json([
-                'data' => $$PLURAL$,
-            ]);
-        }
+        $this->addView("{$this->domainAlias}::{$this->viewPath}.index");
 
-        return view('$PLURAL$.index', compact('$PLURAL$'));
+        $this->useCollection($CLASS$Collection::class, 'data');
+
+        return $this->response();
+
     }
 
     /**
@@ -81,17 +102,12 @@ class $CONTROLLER$Controller extends Controller
 
             $$SINGULAR$ = $this->repository->create($request->all());
 
-            $response = [
-                'message' => '$CLASS$ created.',
-                'data'    => $$SINGULAR$->toArray(),
-            ];
+            $this->setData('data', $store);
 
-            if ($request->wantsJson()) {
+            $this->redirectRoute("{$this->resourceRoute}.show", [$store->id]);
 
-                return response()->json($response);
-            }
+            $this->useCollection($CLASS$Resource::class, 'data');
 
-            return redirect()->back()->with('message', $response['message']);
         } catch (ValidatorException $e) {
             if ($request->wantsJson()) {
                 return response()->json([
@@ -101,7 +117,11 @@ class $CONTROLLER$Controller extends Controller
             }
 
             return redirect()->back()->withErrors($e->getMessageBag())->withInput();
+
         }
+
+        return $this->response();
+
     }
 
     /**
@@ -115,14 +135,16 @@ class $CONTROLLER$Controller extends Controller
     {
         $$SINGULAR$ = $this->repository->find($id);
 
-        if (request()->wantsJson()) {
+        $this->setData('data', $$SINGULAR$);
 
-            return response()->json([
-                'data' => $$SINGULAR$,
-            ]);
-        }
+        $this->useCollection($CLASS$Resource::class, 'data');
 
-        return view('$PLURAL$.show', compact('$SINGULAR$'));
+        $this->addView("{$this->domainAlias}::{$this->viewPath}.show");
+
+        $this->useCollection($CLASS$Collection::class, 'data');
+
+        return $this->response();
+
     }
 
     /**

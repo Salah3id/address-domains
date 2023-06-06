@@ -95,6 +95,8 @@ class ControllerGenerator extends Generator
             'validator'  => $this->getValidator(),
             'repository' => $this->getRepository(),
             'appname'    => $this->getAppNamespace(),
+            'domain'    => $this->domain,
+
         ]);
     }
 

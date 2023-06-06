@@ -22,7 +22,7 @@ class TransformerGenerator extends Generator
      */
     public function getRootNamespace()
     {
-        return parent::getRootNamespace() . parent::getConfigGeneratorClassPath($this->getPathConfigNode());
+        return parent::getRootNamespace() . parent::getConfigGeneratorClassPath($this->getPathConfigNode()) . '\\' . $this->getName();
     }
 
     /**
@@ -42,7 +42,7 @@ class TransformerGenerator extends Generator
      */
     public function getPath()
     {
-        return $this->getBasePath() . '/' . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '/' . $this->getName() . 'Transformer.php';
+        return $this->getBasePath() . '/' . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '/' .$this->getName(). '/' . $this->getName() . 'Resource.php';
     }
 
     /**

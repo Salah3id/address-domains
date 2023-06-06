@@ -22,7 +22,7 @@ class PresenterGenerator extends Generator
      */
     public function getRootNamespace()
     {
-        return parent::getRootNamespace() . parent::getConfigGeneratorClassPath($this->getPathConfigNode());
+        return parent::getRootNamespace() . parent::getConfigGeneratorClassPath($this->getPathConfigNode()) . '\\' . $this->getName();
     }
 
     /**
@@ -45,7 +45,7 @@ class PresenterGenerator extends Generator
         $transformerGenerator = new TransformerGenerator([
             'name' => $this->name
         ],$this->domain,$this->domainPath);
-        $transformer = $transformerGenerator->getRootNamespace() . '\\' . $transformerGenerator->getName() . 'Transformer';
+        $transformer = $transformerGenerator->getRootNamespace() . '\\' .$transformerGenerator->getName().'\\'. $transformerGenerator->getName() . 'Resource';
         $transformer = str_replace([
             "\\",
             '/'
@@ -64,7 +64,7 @@ class PresenterGenerator extends Generator
      */
     public function getPath()
     {
-        return $this->getBasePath() . '/' . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '/' . $this->getName() . 'Presenter.php';
+        return $this->getBasePath() . '/' . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) .'/'. $this->getName(). '/' . $this->getName() . 'Collection.php';
     }
 
     /**

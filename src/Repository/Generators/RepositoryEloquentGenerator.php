@@ -65,7 +65,7 @@ class RepositoryEloquentGenerator extends Generator
      */
     public function getReplacements()
     {
-        $repository = parent::getRootNamespace() . parent::getConfigGeneratorClassPath('interfaces') . '\\' . $this->name . 'Repository;';
+        $repository = parent::getRootNamespace() . parent::getConfigGeneratorClassPath('interfaces') . '\\' . ucfirst($this->name) . 'Repository;';
         $repository = str_replace([
             "\\",
             '/'

@@ -73,7 +73,7 @@ class PresenterCommand extends Command
             ],$domain,$domainPath))->run();
             $this->info("Presenter created successfully.");
 
-            if (!\File::exists(app()->path() . '/Transformers/' . $this->argument('name') . 'Transformer.php')) {
+            if (!\File::exists($domainPath . '/Transformers/' . $this->argument('name') .'\\'. $this->argument('name') .'Resource.php')) {
                 if ($this->confirm('Would you like to create a Transformer? [y|N]')) {
                     (new TransformerGenerator([
                         'name'  => $this->argument('name'),

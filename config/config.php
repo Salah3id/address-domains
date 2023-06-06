@@ -144,7 +144,7 @@ return [
             'repositories' => 'Repositories/Eloquent',
             'interfaces'   => 'Repositories/Interfaces',
             'transformers' => 'Transformers',
-            'presenters'   => 'Presenters',
+            'presenters'   => 'Transformers',
             'validators'   => 'Validators',
             'controllers'  => 'Http/Controllers',
             'provider'     => 'RepositoryServiceProvider',

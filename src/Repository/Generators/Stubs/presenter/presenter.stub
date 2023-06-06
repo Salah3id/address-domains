@@ -5,7 +5,7 @@ $NAMESPACE$
 use Salah3id\Domains\Repository\Helpers\BaseCollection as ResourceCollection;
 
 
-class $CLASS$Presenter extends ResourceCollection
+class $CLASS$Collection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
