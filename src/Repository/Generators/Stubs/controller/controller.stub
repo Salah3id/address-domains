@@ -75,7 +75,7 @@ class $CONTROLLER$Controller extends Controller
     {
         $$PLURAL$ = $this->repository->spatie()->paginate(10);
 
-        $data = $this->setData('data', $$PLURAL$);
+        $this->setData('data', $$PLURAL$);
 
         $this->addView("{$this->domainAlias}::{$this->viewPath}.index");
 
