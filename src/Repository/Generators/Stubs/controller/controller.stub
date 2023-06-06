@@ -10,8 +10,8 @@ use Salah3id\Domains\Validator\Contracts\ValidatorInterface;
 use Salah3id\Domains\Validator\Exceptions\ValidatorException;
 use $APPNAME$Http\Requests\CreateRequests\$CLASS$CreateRequest;
 use $APPNAME$Http\Requests\UpdateRequests\$CLASS$UpdateRequest;
-use $APPNAME$Http\Transformers\$CLASS$\$CLASS$Resource;
-use $APPNAME$Http\Transformers\$CLASS$\$CLASS$Collection;
+use $APPNAME$Transformers\$CLASS$\$CLASS$Resource;
+use $APPNAME$Transformers\$CLASS$\$CLASS$Collection;
 
 
 use Salah3id\Domains\Repository\Traits\Responder;
@@ -104,7 +104,7 @@ class $CONTROLLER$Controller extends Controller
 
             $this->setData('data', $$SINGULAR$);
 
-            $this->redirectRoute("{$this->resourceRoute}.show", [$store->id]);
+            $this->redirectRoute("{$this->resourceRoute}.show", [$$SINGULAR$->id]);
 
             $this->useCollection($CLASS$Resource::class, 'data');
 
